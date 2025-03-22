@@ -2,9 +2,12 @@
 
 {% block content%}
 
-<h3>Tópico: {{ topic }}</h3>
+<p>Tópico: {{ topic }}</p>
 
 <p>Anotações: </p>
+
+<p><a href="{% url 'new_entry' topic.id %}">Adicionar nova anotação</a></p>
+
 <ul>
     {% for entry in entries %}
         <li>
@@ -14,5 +17,7 @@
         {% empty %}
         <li>Não há entradas para este tópico.</li>
     {% endfor %}
+</ul>
+
 </ul>
 {% endblock content %}

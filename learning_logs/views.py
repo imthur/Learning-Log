@@ -53,3 +53,4 @@ def new_entry(request, topic_id):
 
     context = {'topic': topic, 'form': form} # Cria um dicionário com as chaves 'topic' e 'form' e os valores topic e form, respectivamente
     return render(request, 'learning_logs/new_entry.html', context) # Renderiza a página new_entry.html, passando o dicionário context como argumento
+    
