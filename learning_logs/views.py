@@ -1,6 +1,6 @@
 from django.shortcuts import render # Importa a função render
 from .models import Topic # Importa o modelo Topic do arquivo models.py
-from .forms import TopicForm # Importa o formulário TopicForm do arquivo forms.py
+from .forms import TopicForm, EntryForm # Importa o formulário TopicForm do arquivo forms.py
 from django.http import HttpResponseRedirect # Importa a função HttpResponseRedirect
 from django.urls import reverse # Importa a função reverse
 
@@ -35,3 +35,21 @@ def new_topic(request):
 
     context = {'form': form} # Cria um dicionário com a chave 'form' e o valor form, que contém o formulário
     return render(request, 'learning_logs/new_topic.html', context) # Renderiza a página new_topic.html, passando o dicionário context como argumento
+
+def new_entry(request, topic_id):
+    """Adiciona uma nova entrada para um tópico em particular."""
+    topic = Topic.objects.get(id=topic_id) # Busca um objeto Topic com o id passado como argumento
+    if request.method != 'POST': # Se a requisição não for do tipo POST
+        # Nenhum dado submetido; cria um formulário em branco
+        form = EntryForm() # Cria um formulário vazio
+    else:
+        # Dados de POST submetidos; processa os dados
+        form = EntryForm(data=request.POST) # Cria um formulário preenchido com os dados submetidos
+        if form.is_valid(): # Se o formulário for válido
+            new_entry = form.save(commit=False) # Salva os dados do formulário no banco de dados, mas não o commita
+            new_entry.topic = topic # Define o campo topic do objeto new_entry como o objeto topic
+            new_entry.save() # Commita as alterações no banco de dados
+            return HttpResponseRedirect(reverse('topic', args=[topic_id])) # Redireciona o usuário para a página topic.html, passando o argumento topic_id
+
+    context = {'topic': topic, 'form': form} # Cria um dicionário com as chaves 'topic' e 'form' e os valores topic e form, respectivamente
+    return render(request, 'learning_logs/new_entry.html', context) # Renderiza a página new_entry.html, passando o dicionário context como argumento

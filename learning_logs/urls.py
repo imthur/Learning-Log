@@ -6,4 +6,5 @@ urlpatterns = [
     path('topics/', views.topics, name='topics'), # Define a URL para a página topics.html
     path('topics/<topic_id>/', views.topic, name='topic'), # Define a URL para a página topic.html, passando o argumento topic_id para a view topic
     path('new_topic', views.new_topic, name='new_topic'), # Define a URL para a página new_topic.html
+    path('new_entry/<topic_id>/', views.new_entry, name='new_entry'), # Define a URL para a página new_entry.html, passando o argumento topic_id para a view new_entry
 ]
