@@ -1,0 +1,12 @@
+{% extends "learning_logs/base.html" %}
+
+{% block content %} 
+<form action="{% url 'new_topic' %}" method='post'> 
+    {% csrf_token %} <!-- essa tag é necessária para proteger o formulário contra ataques de CSRF -->
+    {{ form.as_p }} <!-- renderiza o formulário, necessário para exibir o formulário na página -->
+    <button name='submit'>add topic</button> <!-- botão de envio do formulário -->
+    <input type='hidden' name='next' value='{% url 'topics' %}'> <!-- campo oculto que redireciona o usuário para a página de tópicos após o envio do formulário -->
+
+</form>
+
+{%endblock content%}
