@@ -1,5 +1,5 @@
 from django.shortcuts import render # Importa a função render
-from .models import Topic # Importa o modelo Topic do arquivo models.py
+from .models import Topic, Entry # Importa o modelo Topic do arquivo models.py
 from .forms import TopicForm, EntryForm # Importa o formulário TopicForm do arquivo forms.py
 from django.http import HttpResponseRedirect # Importa a função HttpResponseRedirect
 from django.urls import reverse # Importa a função reverse
@@ -54,3 +54,19 @@ def new_entry(request, topic_id):
     context = {'topic': topic, 'form': form} # Cria um dicionário com as chaves 'topic' e 'form' e os valores topic e form, respectivamente
     return render(request, 'learning_logs/new_entry.html', context) # Renderiza a página new_entry.html, passando o dicionário context como argumento
     
+def edit_entry(request, entry_id):
+    """Edita uma entrada existente."""
+    entry = Entry.objects.get(id=entry_id) # Busca um objeto Entry com o id passado como argumento
+    topic = Entry.topic # Busca o tópico relacionado à entrada
+    if request.method != 'POST': # Se a requisição não for do tipo POST
+        # Requisição inicial; preenche o formulário com a entrada atual
+        form = EntryForm(instance=entry) # Cria um formulário preenchido com os dados da entrada
+    else:
+        # Dados de POST submetidos; processa os dados
+        form = EntryForm(instance=entry, data=request.POST) # Cria um formulário preenchido com os dados submetidos
+        if form.is_valid(): # Se o formulário for válido
+            form.save() # Salva os dados do formulário no banco de dados
+            return HttpResponseRedirect(reverse('topic', args=[topic.id])) # Redireciona o usuário para a página topic.html, passando o argumento topic.id
+
+    context = {'entry': entry, 'topic': topic, 'form': form} # Cria um dicionário com as chaves 'entry', 'topic' e 'form' e os valores entry, topic e form, respectivamente
+    return render(request, 'learning_logs/edit_entry.html', context) # Renderiza a página edit_entry.html, passando o dicionário context como argumento
