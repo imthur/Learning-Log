@@ -57,7 +57,7 @@ def new_entry(request, topic_id):
 def edit_entry(request, entry_id):
     """Edita uma entrada existente."""
     entry = Entry.objects.get(id=entry_id) # Busca um objeto Entry com o id passado como argumento
-    topic = Entry.topic # Busca o tópico relacionado à entrada
+    topic = entry.topic # Busca o tópico relacionado à entrada
     if request.method != 'POST': # Se a requisição não for do tipo POST
         # Requisição inicial; preenche o formulário com a entrada atual
         form = EntryForm(instance=entry) # Cria um formulário preenchido com os dados da entrada
