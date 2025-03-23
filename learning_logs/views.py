@@ -3,17 +3,20 @@ from .models import Topic, Entry # Importa o modelo Topic do arquivo models.py
 from .forms import TopicForm, EntryForm # Importa o formulário TopicForm do arquivo forms.py
 from django.http import HttpResponseRedirect # Importa a função HttpResponseRedirect
 from django.urls import reverse # Importa a função reverse
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     """The home page for Learning Log."""
     return render(request, 'learning_logs/index.html') # Renderiza a página index.html
 
+@login_required
 def topics(request):
     """Mostra todos os tópicos."""
     topics = Topic.objects.order_by('date_added') # Busca todos os objetos Topic e os ordena por data de criação / Topic é um modelo/tabela do banco de dados, criado em models.py
     context = {'topics' : topics} # Cria um dicionário com a chave 'topics' e o valor topics, que contém todos os objetos da tabela Topic
     return render(request, 'learning_logs/topics.html', context) # Renderiza a página topics.html, passando o dicionário context [criado acima] como argumento
 
+@login_required
 def topic(request, topic_id):
     """Mostra um único tópico e todas as suas entradas."""
     topic = Topic.objects.get(id=topic_id) # Busca um objeto Topic com o id passado como argumento
@@ -21,6 +24,7 @@ def topic(request, topic_id):
     context = {'topic': topic, 'entries': entries} # Cria um dicionário com as chaves 'topic' e 'entries' e os valores topic e entries, respectivamente
     return render(request, 'learning_logs/topic.html', context) # Renderiza a página topic.html, passando o dicionário context como argumento
 
+@login_required
 def new_topic(request):
     """Adiciona um novo tópico."""
     if request.method != 'POST': # Se a requisição não for do tipo POST
@@ -36,6 +40,7 @@ def new_topic(request):
     context = {'form': form} # Cria um dicionário com a chave 'form' e o valor form, que contém o formulário
     return render(request, 'learning_logs/new_topic.html', context) # Renderiza a página new_topic.html, passando o dicionário context como argumento
 
+@login_required
 def new_entry(request, topic_id):
     """Adiciona uma nova entrada para um tópico em particular."""
     topic = Topic.objects.get(id=topic_id) # Busca um objeto Topic com o id passado como argumento
@@ -54,6 +59,7 @@ def new_entry(request, topic_id):
     context = {'topic': topic, 'form': form} # Cria um dicionário com as chaves 'topic' e 'form' e os valores topic e form, respectivamente
     return render(request, 'learning_logs/new_entry.html', context) # Renderiza a página new_entry.html, passando o dicionário context como argumento
     
+@login_required
 def edit_entry(request, entry_id):
     """Edita uma entrada existente."""
     entry = Entry.objects.get(id=entry_id) # Busca um objeto Entry com o id passado como argumento
