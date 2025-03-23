@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'), # Django fornece uma função de login que podemos chamar
     path('logout/', views.logout_view, name='logout'), # Django fornece uma função de logout que podemos chamar
+    path('register/', views.register, name='register'),
 ]
