@@ -1,15 +1,22 @@
 {% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+{% block header %}
+
+<h1><a href="{% url 'topic' topic.id %}">{{ topic }}</a></h1> <!-- cria um link para a página do tópico -->
+
+{% endblock header %}
 
 {% block content %} <!-- abre o bloco de conteúdo, herdado do arquivo base.html -->
 
-  <p><a href="{ %url 'topic' topic.id %}">{{ topic }}</a></p> <!-- cria um link para a página do tópico -->
-  <p>Adicione uma nova entrada:</p> <!-- texto de instrução para adicionar uma nova entrada -->
+  <h3>Adicione uma nova entrada:</h3> <!-- texto de instrução para adicionar uma nova entrada -->
 
-  <form action="{% url 'new_entry' topic.id %}" method="post"> <!-- cria um formulário para adicionar uma nova entrada -->
+  <form action="{% url 'new_entry' topic.id %}" method="post" class="form" > <!-- cria um formulário para adicionar uma nova entrada -->
     {% csrf_token %} <!-- essa tag é necessária para proteger o formulário contra ataques de CSRF -->
-    <textarea name="text" rows="3" cols="80"></textarea> <!-- campo de texto para a entrada -->
-    <br><br>
-    <button name="submit">Adicionar entrada</button> <!-- botão de envio do formulário -->
+    {% bootstrap_form form %}
+
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Adicionar entrada</button> <!-- botão de envio do formulário -->
+    {% endbuttons %}
   </form>
 
 {% endblock content %} <!-- fecha o bloco de conteúdo -->

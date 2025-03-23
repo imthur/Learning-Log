@@ -1,15 +1,25 @@
 <!--Nessa página, o template base.html é estendido e o bloco content é substituído por um bloco de código que exibe todos os tópicos que foram adicionados ao banco de dados. Se não houver tópicos, uma mensagem informando que não há tópicos adicionados é exibida.-->
 {% extends "learning_logs/base.html" %}
+
+{% block header %}
+
+<h1>Tópicos:</h1>
+
+{% endblock header %}
 {% block content %}
-    <p>Tópicos:</p>
     <ul>
         {% for topic in topics %}
             <li>
-                <a href= "{% url 'topic' topic.id %}">{{ topic }}</a> <!-- o nome do tópico é exibido como um link que leva o usuário para a página do tópico -->
+                <h3>
+                    <a href= "{% url 'topic' topic.id %}">{{ topic }}</a> <!-- o nome do tópico é exibido como um link que leva o usuário para a página do tópico -->
+                </h3>
             </li>
         {% empty %}
             <li>Não há tópicos adicionados.</li> <!-- mensagem exibida caso não haja tópicos adicionados -->
         {% endfor %}
     </ul>
-    <a href="{% url 'new_topic' %}">Adicionar um novo tópico</a> <!-- link que leva o usuário para a página de adição de tópicos -->
-{% endblock content %}
+    <h3>
+        <a href="{% url 'new_topic' %}">Adicionar um novo tópico</a> <!-- link que leva o usuário para a página de adição de tópicos -->
+    </h3>
+
+    {% endblock content %}
