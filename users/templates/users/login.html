@@ -2,14 +2,10 @@
 
 {% block content %}
 
-    {% if form.errors %}
-        <p>Usuário ou senha inválidos.</p>
-    {% endif %}
-
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Login</button>
-        <input type="hidden" name="next" value="{% url 'index' %}">
+    <form method="post" action="{% url 'login' %}"> <!-- essa url é a url do login do arquivo urls.py da aplicação users -->
+        {% csrf_token %} <!-- token de segurança -->
+        {{ form.as_p }} <!-- form é o formulário que foi passado pelo views.py -->
+        <button name="submit">Login</button> <!-- botão de submit -->
+        <input type="hidden" name="next" value="{% url 'index' %}"> <!-- redireciona para a página inicial -->
 
 {% endblock content %}
