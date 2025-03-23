@@ -1,10 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Topic(models.Model): # Define um modelo/tabela chamado Topic
     """Um tópico sobre o qual o usuário está aprendendo."""
     text = models.CharField(max_length=200) # Define um campo de texto com no máximo 200 caracteres
     date_added = models.DateTimeField(auto_now_add=True) # Define um campo de data e hora que armazena a data e hora atuais
-
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     class Meta:
         verbose_name_plural = 'topics' # Define o plural de 'Topic' como 'topics', passando essa informação para que o Django não adicione um 's' ao final do nome da tabela
         
