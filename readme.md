@@ -1,4 +1,4 @@
-# Learning Logs
+# Learning Log
 
 ## 📌 Sobre o Projeto
 O **Learning Logs** é um projeto desenvolvido como parte dos meus estudos em Django. Ele é baseado no livro *Curso Intensivo de Python: uma Introdução Prática e Baseada em Projetos à Programação*.
